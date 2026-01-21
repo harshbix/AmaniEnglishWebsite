@@ -1,0 +1,7 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { motion } from "framer-motion";
+import { Card } from "@/components/Card";
+import { formatDate, truncateText } from "@/utils/helpers";
+export const NewsCard = ({ news, onClick }) => {
+    return (_jsx(motion.div, { whileHover: { y: -4 }, transition: { duration: 0.2 }, children: _jsxs(Card, { hoverable: true, onClick: onClick, className: "h-full cursor-pointer overflow-hidden", children: [news.imageUrl && (_jsx("div", { className: "w-full h-48 bg-gray-200 rounded-lg mb-4 overflow-hidden", children: _jsx("img", { src: news.imageUrl, alt: news.title, className: "w-full h-full object-cover", loading: "lazy" }) })), _jsxs("div", { className: "flex flex-col gap-3", children: [_jsxs("div", { className: "flex items-center justify-between", children: [_jsx("span", { className: "text-xs font-semibold text-brand-green uppercase", children: news.category }), _jsx("span", { className: "text-xs text-gray-500", children: formatDate(news.date) })] }), _jsx("h3", { className: "font-bold text-lg text-brand-dark hover:text-brand-green transition-colors", children: news.title }), _jsx("p", { className: "text-gray-600 text-sm", children: truncateText(news.excerpt, 100) }), _jsx("div", { className: "pt-3 border-t border-gray-200", children: _jsxs("p", { className: "text-xs text-gray-500", children: ["By ", news.author] }) })] })] }) }));
+};
