@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { sendSuccess, sendError } from "@/utils/response";
-import * as dataService from "@/services/dataService";
+import { sendSuccess } from "../utils/response";
+import * as dataService from "../services/dataService";
 
 export const getEvents = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {

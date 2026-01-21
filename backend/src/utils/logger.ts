@@ -10,11 +10,14 @@ class Logger {
     const timestamp = new Date().toISOString();
     const prefix = `[${timestamp}] [${level}]`;
 
-    if (data) {
-      console.log(`${prefix} ${message}`, data);
-    } else {
-      console.log(`${prefix} ${message}`);
-    }
+    const logMethod =
+      level === LogLevel.ERROR
+        ? console.error
+        : level === LogLevel.WARN
+          ? console.warn
+          : console.info;
+
+    data ? logMethod(`${prefix} ${message}`, data) : logMethod(`${prefix} ${message}`);
   }
 
   debug(message: string, data?: unknown): void {

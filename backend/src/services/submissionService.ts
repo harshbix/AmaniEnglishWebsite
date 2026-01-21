@@ -1,26 +1,11 @@
-import logger from "@/utils/logger";
+import logger from "../utils/logger";
+import type { AdmissionInquiryPayload, ContactFormPayload } from "../types";
 
-interface ContactSubmission {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone?: string;
-  subject: string;
-  message: string;
+interface ContactSubmission extends ContactFormPayload {
   timestamp: string;
 }
 
-interface AdmissionInquiry {
-  childFirstName: string;
-  childLastName: string;
-  childDateOfBirth: string;
-  guardianFirstName: string;
-  guardianLastName: string;
-  guardianEmail: string;
-  guardianPhone: string;
-  guardianRelationship: string;
-  intendedClass: string;
-  message?: string;
+interface AdmissionInquiry extends AdmissionInquiryPayload {
   timestamp: string;
 }
 
@@ -28,7 +13,7 @@ interface AdmissionInquiry {
 const contactSubmissions: ContactSubmission[] = [];
 const admissionInquiries: AdmissionInquiry[] = [];
 
-export const submitContactForm = async (data: Omit<ContactSubmission, "timestamp">): Promise<void> => {
+export const submitContactForm = async (data: ContactFormPayload): Promise<void> => {
   const submission: ContactSubmission = {
     ...data,
     timestamp: new Date().toISOString(),
@@ -41,7 +26,7 @@ export const submitContactForm = async (data: Omit<ContactSubmission, "timestamp
   // await sendEmailNotification(submission);
 };
 
-export const submitAdmissionInquiry = async (data: Omit<AdmissionInquiry, "timestamp">): Promise<void> => {
+export const submitAdmissionInquiry = async (data: AdmissionInquiryPayload): Promise<void> => {
   const inquiry: AdmissionInquiry = {
     ...data,
     timestamp: new Date().toISOString(),

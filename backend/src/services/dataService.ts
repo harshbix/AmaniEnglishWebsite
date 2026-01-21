@@ -1,46 +1,97 @@
+import type { CalendarData, SchoolEvent } from "../types";
+
 // Mock data for events
-export const mockEvents = [
+export const mockEvents: SchoolEvent[] = [
   {
     id: "1",
     title: "Term 1 Begins",
     date: "2024-01-15T00:00:00Z",
     type: "academic",
-    description: "Start of the first term of 2024",
+    description: "Start of the first term for the new academic year.",
   },
   {
     id: "2",
     title: "Parent-Teacher Meeting",
     date: "2024-02-10T15:00:00Z",
     type: "meeting",
-    description: "Quarterly parent-teacher conference",
+    description: "Quarterly parent-teacher conference to discuss student progress.",
   },
   {
     id: "3",
     title: "Inter-Class Debate Competition",
     date: "2024-02-28T09:00:00Z",
     type: "activity",
-    description: "Students showcase speaking and research skills",
+    description: "Students showcase speaking and research skills in a debate showdown.",
   },
   {
     id: "4",
     title: "Mid-Term Examinations",
     date: "2024-03-18T00:00:00Z",
     type: "exam",
-    description: "First semester examinations",
+    description: "First semester examinations covering all core subjects.",
   },
   {
     id: "5",
     title: "Science Fair",
     date: "2024-04-05T09:00:00Z",
     type: "activity",
-    description: "Students present science projects",
+    description: "Students present science projects to parents and community partners.",
   },
   {
     id: "6",
     title: "Sports Day",
     date: "2024-05-20T07:00:00Z",
     type: "activity",
-    description: "Annual school sports competition",
+    description: "Annual athletics and games competition for the whole school.",
+  },
+  {
+    id: "7",
+    title: "Career Awareness Week",
+    date: "2024-06-12T08:30:00Z",
+    type: "academic",
+    description: "Guest speakers and workshops helping pupils explore future careers.",
+  },
+  {
+    id: "8",
+    title: "Cultural Heritage Festival",
+    date: "2024-07-02T10:00:00Z",
+    type: "activity",
+    description: "Celebration of Tanzanian culture with performances and exhibitions.",
+  },
+  {
+    id: "9",
+    title: "Mock National Examinations",
+    date: "2024-08-19T00:00:00Z",
+    type: "exam",
+    description: "Preparation assessments ahead of national examinations.",
+  },
+  {
+    id: "10",
+    title: "Community Service Day",
+    date: "2024-09-14T07:30:00Z",
+    type: "activity",
+    description: "Students engage in service projects across the Tanga community.",
+  },
+  {
+    id: "11",
+    title: "Parent Literacy Workshop",
+    date: "2024-10-05T09:00:00Z",
+    type: "meeting",
+    description: "Workshop equipping parents with strategies to support reading at home.",
+  },
+  {
+    id: "12",
+    title: "Final Examinations",
+    date: "2024-11-18T00:00:00Z",
+    type: "exam",
+    description: "Comprehensive end-of-year examinations for all classes.",
+  },
+  {
+    id: "13",
+    title: "Graduation & Awards Ceremony",
+    date: "2024-12-06T14:00:00Z",
+    type: "activity",
+    description: "Celebrating graduating pupils and outstanding achievements.",
   },
 ];
 
@@ -111,16 +162,12 @@ export const mockPerformance = {
 };
 
 // Mock calendar data
-export const generateCalendarData = () => {
-  const events = mockEvents.map((event) => ({
-    id: event.id,
-    title: event.title,
-    date: new Date(event.date),
-    type: event.type,
-  }));
-
+export const generateCalendarData = (): CalendarData => {
   return {
     year: 2024,
-    events,
+    events: mockEvents.map((event) => ({
+      ...event,
+      date: new Date(event.date).toISOString(),
+    })),
   };
 };
