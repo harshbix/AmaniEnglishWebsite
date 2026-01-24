@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { sendSuccess, sendError } from "../utils/response";
-import { validateContactForm } from "../validators/contact";
-import { validateAdmissionInquiry } from "../validators/admission";
-import * as submissionService from "../services/submissionService";
+import { sendSuccess, sendError } from "../utils/response.js";
+import { validateContactForm } from "../validators/contact.js";
+import { validateAdmissionInquiry } from "../validators/admission.js";
+import * as submissionService from "../services/submissionService.js";
 
 export const submitContact = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {

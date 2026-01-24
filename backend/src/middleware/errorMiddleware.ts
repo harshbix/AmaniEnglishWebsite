@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
 import type { ValidationError } from "joi";
-import logger from "../utils/logger";
-import { sendError } from "../utils/response";
-import { AppError } from "../utils/errorHandler";
+import logger from "../utils/logger.js";
+import { sendError } from "../utils/response.js";
+import { AppError } from "../utils/errorHandler.js";
 
 const isValidationError = (error: unknown): error is ValidationError => {
   return Boolean(error) && typeof error === "object" && error !== null && "isJoi" in (error as ValidationError);

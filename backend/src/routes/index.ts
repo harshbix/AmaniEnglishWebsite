@@ -1,6 +1,6 @@
 import { Router } from "express";
-import contentRoutes from "@/routes/contentRoutes";
-import formRoutes from "@/routes/formRoutes";
+import contentRoutes from "./contentRoutes";
+import formRoutes from "./formRoutes";
 
 const router = Router();
 

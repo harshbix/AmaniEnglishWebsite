@@ -1,9 +1,9 @@
 import express from "express";
-import { config } from "./config/environment";
-import { requestLogger, corsMiddleware } from "./middleware";
-import { errorHandler, notFoundHandler } from "./middleware/errorMiddleware";
-import apiRoutes from "./routes";
-import logger from "./utils/logger";
+import { config } from "./config/environment.js";
+import { requestLogger, corsMiddleware } from "./middleware/index.js";
+import { errorHandler, notFoundHandler } from "./middleware/errorMiddleware.js";
+import apiRoutes from "./routes/index.js";
+import logger from "./utils/logger.js";
 
 const app = express();
 
