@@ -1,15 +1,24 @@
 {
+    "version": "0.2.0",
     "configurations": [
         {
-            "name": "Containers: Node.js Launch",
-            "type": "docker",
+            "name": "Backend: npm run dev",
+            "type": "pwa-node",
             "request": "launch",
-            "preLaunchTask": "docker-run: debug",
-            "platform": "node",
-            "node": {
-                "package": "${workspaceFolder}/frontend/package.json",
-                "localRoot": "${workspaceFolder}/frontend"
-            }
+            "cwd": "${workspaceFolder}/backend",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "dev"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Frontend: Vite dev",
+            "type": "pwa-chrome",
+            "request": "launch",
+            "url": "http://localhost:5173",
+            "webRoot": "${workspaceFolder}/frontend/src"
         }
     ]
 }

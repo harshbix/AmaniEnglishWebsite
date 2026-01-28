@@ -8,8 +8,8 @@ export const config = {
   apiBaseUrl: process.env.API_BASE_URL || "http://localhost:5000",
   frontendUrl: process.env.FRONTEND_URL || "http://localhost:5173",
   corsOrigin: process.env.CORS_ORIGIN || "http://localhost:5173",
-  databaseUrl: process.env.DATABASE_URL || "mongodb://127.0.0.1:27017/amani-school",
-  databaseName: process.env.DATABASE_NAME || "amani-school",
+  databaseUrl: process.env.DATABASE_URL || "mongodb+srv://mapengo:tKV180p5GuPMNw1y@cluster0.pjw9tjk.mongodb.net/?appName=Cluster0",
+  databaseName: process.env.DATABASE_NAME || "amani-school", 
   isDevelopment: process.env.NODE_ENV !== "production",
   isProduction: process.env.NODE_ENV === "production",
 };
