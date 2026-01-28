@@ -1,6 +1,6 @@
 import { MongoClient, type Db } from "mongodb";
 import config from "./environment.js";
-import logger from "../utils/logger.js";
+import { logger } from "../shared/logger.js";
 
 let client: MongoClient | null = null;
 let database: Db | null = null;

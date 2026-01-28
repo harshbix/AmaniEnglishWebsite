@@ -1,28 +1,10 @@
-import express from "express";
 import type { Server } from "http";
 import { config } from "./config/environment.js";
 import { connectDatabase, disconnectDatabase } from "./config/database.js";
-import { requestLogger, corsMiddleware } from "./middleware/index.js";
-import { errorHandler, notFoundHandler } from "./middleware/errorMiddleware.js";
-import apiRoutes from "./routes/index.js";
-import logger from "./utils/logger.js";
+import { createApp } from "./app/app.js";
+import { logger } from "./shared/logger.js";
 
-const app = express();
-
-// Middleware
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ limit: "10mb", extended: true }));
-app.use(corsMiddleware);
-app.use(requestLogger);
-
-// Routes
-app.use("/api", apiRoutes);
-
-// 404 Handler
-app.use(notFoundHandler);
-
-// Error Handler (must be last)
-app.use(errorHandler);
+const app = createApp();
 
 const PORT = config.port;
 let httpServer: Server | null = null;
