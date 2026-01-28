@@ -1,5 +1,7 @@
 import express from "express";
+import type { Server } from "http";
 import { config } from "./config/environment.js";
+import { connectDatabase, disconnectDatabase } from "./config/database.js";
 import { requestLogger, corsMiddleware } from "./middleware/index.js";
 import { errorHandler, notFoundHandler } from "./middleware/errorMiddleware.js";
 import apiRoutes from "./routes/index.js";
@@ -23,26 +25,48 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 const PORT = config.port;
+let httpServer: Server | null = null;
 
-const server = app.listen(PORT, () => {
-  logger.info(`Server running on port ${PORT} in ${config.nodeEnv} mode`);
-});
+const startServer = async (): Promise<void> => {
+  try {
+    await connectDatabase();
+    httpServer = app.listen(PORT, () => {
+      logger.info(`Server running on port ${PORT} in ${config.nodeEnv} mode`);
+    });
+  } catch (error) {
+    logger.error("Failed to start server", error);
+    process.exit(1);
+  }
+};
 
-// Graceful shutdown
-process.on("SIGTERM", () => {
-  logger.info("SIGTERM signal received: closing HTTP server");
-  server.close(() => {
-    logger.info("HTTP server closed");
-    process.exit(0);
+const shutdown = async (signal: string): Promise<void> => {
+  logger.info(`${signal} signal received: closing HTTP server`);
+
+  if (httpServer) {
+    await new Promise<void>((resolve) => {
+      httpServer?.close(() => {
+        logger.info("HTTP server closed");
+        resolve();
+      });
+    });
+    httpServer = null;
+  }
+
+  await disconnectDatabase().catch((error) => {
+    logger.error("Error while closing MongoDB connection", error);
   });
+
+  process.exit(0);
+};
+
+process.on("SIGTERM", () => {
+  void shutdown("SIGTERM");
 });
 
 process.on("SIGINT", () => {
-  logger.info("SIGINT signal received: closing HTTP server");
-  server.close(() => {
-    logger.info("HTTP server closed");
-    process.exit(0);
-  });
+  void shutdown("SIGINT");
 });
+
+void startServer();
 
 export default app;

@@ -1,5 +1,5 @@
 import { useState, type FC } from "react";
-import { Container, Hero, Button, Input, Select, Textarea, Alert } from "@/components";
+import { Container, Hero, Button, Input, Select, Textarea, Alert, FeesSection } from "@/components";
 import { usePageMeta, useAdmissionForm } from "@/hooks";
 import { ADMISSION_CLASSES } from "@/utils/constants";
 import { motion } from "framer-motion";
@@ -359,6 +359,8 @@ export const AdmissionsPage: FC = () => {
           </motion.div>
         </Container>
       </section>
+
+      <FeesSection />
     </>
   );
 };

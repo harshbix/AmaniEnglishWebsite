@@ -14,5 +14,7 @@ export { EventCard } from "@/components/EventCard";
 export { NewsCard } from "@/components/NewsCard";
 export { MetricCard } from "@/components/MetricCard";
 export { CalendarGrid } from "@/components/calendar/CalendarGrid";
+export { FeesSection } from "@/components/FeesSection";
+export { GallerySection } from "@/components/GallerySection";
 
 export default {};

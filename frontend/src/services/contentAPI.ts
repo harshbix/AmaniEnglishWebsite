@@ -4,10 +4,10 @@ import { Event, NewsResponse, PerformanceData, Calendar } from "@/types/api";
 export const contentAPI = {
   getEvents: async (month?: number, year?: number): Promise<Event[]> => {
     try {
-      const response = await apiClient.get<Event[]>("/events", {
+      const response = await apiClient.get("/events", {
         params: { month, year },
       });
-      return (response as unknown as Event[]) || [];
+      return (response.data as Event[]) || [];
     } catch {
       return [];
     }
@@ -15,8 +15,8 @@ export const contentAPI = {
 
   getCalendar: async (): Promise<Calendar> => {
     try {
-      const response = await apiClient.get<Calendar>("/calendar");
-      return (response as unknown as Calendar) || { year: new Date().getFullYear(), events: [] };
+      const response = await apiClient.get("/calendar");
+      return (response.data as Calendar) || { year: new Date().getFullYear(), events: [] };
     } catch {
       return { year: new Date().getFullYear(), events: [] };
     }
@@ -24,10 +24,10 @@ export const contentAPI = {
 
   getNews: async (page = 1, limit = 10): Promise<NewsResponse> => {
     try {
-      const response = await apiClient.get<NewsResponse>("/news", {
+      const response = await apiClient.get("/news", {
         params: { page, limit },
       });
-      return (response as unknown as NewsResponse) || { items: [], pagination: { page: 1, limit: 10, total: 0, pages: 0 } };
+      return (response.data as NewsResponse) || { items: [], pagination: { page: 1, limit: 10, total: 0, pages: 0 } };
     } catch {
       return { items: [], pagination: { page: 1, limit: 10, total: 0, pages: 0 } };
     }
@@ -35,8 +35,8 @@ export const contentAPI = {
 
   getPerformance: async (): Promise<PerformanceData> => {
     try {
-      const response = await apiClient.get<PerformanceData>("/performance");
-      return (response as unknown as PerformanceData) || {
+      const response = await apiClient.get("/performance");
+      return (response.data as PerformanceData) || {
         summary: {
           passRate: 0,
           averageScore: 0,

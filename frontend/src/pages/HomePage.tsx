@@ -1,7 +1,14 @@
 import type { FC } from "react";
 import { Link } from "react-router-dom";
-import { Container, Hero, Button } from "@/components";
-import { EventCard, NewsCard, MetricCard } from "@/components";
+import {
+  Container,
+  Hero,
+  Button,
+  GallerySection,
+  EventCard,
+  NewsCard,
+  MetricCard,
+} from "@/components";
 import { usePageMeta, useEvents, useNews, usePerformance } from "@/hooks";
 import { SCHOOL_INFO } from "@/utils/constants";
 import { Skeleton } from "@/components/Skeleton";
@@ -230,6 +237,8 @@ export const HomePage: FC = () => {
           </motion.div>
         </Container>
       </section>
+
+      <GallerySection />
 
       {/* CTA Section */}
       <section className="py-16 md:py-24 bg-brand-dark text-white">

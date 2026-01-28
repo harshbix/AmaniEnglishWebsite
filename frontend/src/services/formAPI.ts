@@ -8,8 +8,8 @@ export interface SubmissionResponse {
 export const formAPI = {
   submitContact: async (data: ContactFormData): Promise<SubmissionResponse> => {
     try {
-      const response = await apiClient.post<SubmissionResponse>("/contact", data);
-      return (response as unknown as SubmissionResponse) || { id: 0 };
+      const response = await apiClient.post("/contact", data);
+      return (response.data as SubmissionResponse) || { id: 0 };
     } catch {
       return { id: 0 };
     }
@@ -17,8 +17,8 @@ export const formAPI = {
 
   submitAdmission: async (data: AdmissionFormData): Promise<SubmissionResponse> => {
     try {
-      const response = await apiClient.post<SubmissionResponse>("/admissions", data);
-      return (response as unknown as SubmissionResponse) || { id: 0 };
+      const response = await apiClient.post("/admissions", data);
+      return (response.data as SubmissionResponse) || { id: 0 };
     } catch {
       return { id: 0 };
     }
