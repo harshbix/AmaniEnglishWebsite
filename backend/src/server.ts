@@ -3,6 +3,7 @@ import { config } from "./config/environment.js";
 import { connectDatabase, disconnectDatabase } from "./config/database.js";
 import { createApp } from "./app/app.js";
 import { logger } from "./shared/logger.js";
+import { seedDatabase } from "./app/seed.js";
 
 const app = createApp();
 
@@ -12,6 +13,7 @@ let httpServer: Server | null = null;
 const startServer = async (): Promise<void> => {
   try {
     await connectDatabase();
+    await seedDatabase();
     httpServer = app.listen(PORT, () => {
       logger.info(`Server running on port ${PORT} in ${config.nodeEnv} mode`);
     });

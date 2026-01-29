@@ -67,6 +67,58 @@ export interface Calendar {
   events: CalendarEvent[];
 }
 
+// Gallery types
+export type GalleryCategory =
+  | "sports"
+  | "graduation"
+  | "science-lab"
+  | "campus-life"
+  | "leadership"
+  | "community";
+
+export interface GalleryFilterOption {
+  label: string;
+  value: "all" | GalleryCategory;
+}
+
+export interface GalleryItem {
+  id: string;
+  title: string;
+  caption: string;
+  alt: string;
+  categories: GalleryCategory[];
+  thumbnailUrl: string;
+  fullUrl: string;
+}
+
+export interface GalleryResponse {
+  categories: GalleryFilterOption[];
+  items: GalleryItem[];
+}
+
+// Fee types
+export type FeeCategory = "Nursery" | "Primary" | "Secondary";
+
+export interface FeeOptionalCost {
+  label: string;
+  amount: number;
+}
+
+export interface FeeItem {
+  id: string;
+  category: FeeCategory;
+  grade: string;
+  tuitionFee: number;
+  administrationFee: number;
+  optionalCosts: FeeOptionalCost[];
+  totalPerTerm: number;
+}
+
+export interface FeeResponse {
+  categories: FeeCategory[];
+  items: FeeItem[];
+}
+
 // Form types
 export interface ContactFormData {
   firstName: string;

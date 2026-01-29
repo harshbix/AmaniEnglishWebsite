@@ -43,6 +43,7 @@ export const ADMISSION_CLASSES = [
 export const QUICK_LINKS = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
+  { label: "Gallery", href: "/gallery" },
   { label: "Calendar", href: "/calendar" },
   { label: "News", href: "/news" },
   { label: "Performance", href: "/performance" },

@@ -45,3 +45,21 @@ export const getPerformance = async (_req: Request, res: Response, next: NextFun
     next(error);
   }
 };
+
+export const getGallery = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const gallery = await contentService.getGallery();
+    sendSuccess(res, gallery, "Gallery retrieved successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getFees = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const fees = await contentService.getFees();
+    sendSuccess(res, fees, "Fee structure retrieved successfully");
+  } catch (error) {
+    next(error);
+  }
+};

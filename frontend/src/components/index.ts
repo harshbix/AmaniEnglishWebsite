@@ -16,5 +16,6 @@ export { MetricCard } from "@/components/MetricCard";
 export { CalendarGrid } from "@/components/calendar/CalendarGrid";
 export { FeesSection } from "@/components/FeesSection";
 export { GallerySection } from "@/components/GallerySection";
+export { ScrollToTop } from "@/components/ScrollToTop";
 
 export default {};

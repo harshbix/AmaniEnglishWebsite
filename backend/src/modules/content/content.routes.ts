@@ -7,5 +7,7 @@ router.get("/events", contentController.getEvents);
 router.get("/calendar", contentController.getCalendar);
 router.get("/news", contentController.getNews);
 router.get("/performance", contentController.getPerformance);
+router.get("/gallery", contentController.getGallery);
+router.get("/fees", contentController.getFees);
 
 export default router;

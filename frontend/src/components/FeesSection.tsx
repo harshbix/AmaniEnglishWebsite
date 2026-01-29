@@ -1,12 +1,12 @@
 import { Fragment, useMemo, useState, type FC, type ChangeEvent } from "react";
 import { Container } from "@/components/Container";
-
-const FEE_CATEGORIES = ["Nursery", "Primary", "Secondary"] as const;
-
-type FeeCategory = (typeof FEE_CATEGORIES)[number];
+import { Skeleton } from "@/components/Skeleton";
+import { useFees } from "@/hooks";
+import type { FeeItem } from "@/types/api";
 
 type FeeRow = {
-  category: FeeCategory;
+  id: string;
+  category: string;
   grade: string;
   tuitionFee: string;
   administrationFee: string;
@@ -15,131 +15,70 @@ type FeeRow = {
   searchTerms: string;
 };
 
-const FEE_ROWS: FeeRow[] = [
-  {
-    category: "Nursery",
-    grade: "Baby Class",
-    tuitionFee: "TZS 1,200,000",
-    administrationFee: "TZS 150,000",
-    optionalCosts: ["Transport: 180,000", "Lunch: 120,000"],
-    totalPerTerm: "TZS 1,650,000",
-    searchTerms: "nursery baby class",
-  },
-  {
-    category: "Nursery",
-    grade: "Middle Class",
-    tuitionFee: "TZS 1,350,000",
-    administrationFee: "TZS 150,000",
-    optionalCosts: ["Transport: 190,000", "Lunch: 120,000"],
-    totalPerTerm: "TZS 1,810,000",
-    searchTerms: "nursery middle class",
-  },
-  {
-    category: "Nursery",
-    grade: "Pre-Unit",
-    tuitionFee: "TZS 1,480,000",
-    administrationFee: "TZS 170,000",
-    optionalCosts: ["Transport: 200,000", "Lunch: 130,000"],
-    totalPerTerm: "TZS 1,980,000",
-    searchTerms: "nursery pre unit",
-  },
-  {
-    category: "Primary",
-    grade: "Standard 1",
-    tuitionFee: "TZS 1,650,000",
-    administrationFee: "TZS 200,000",
-    optionalCosts: ["Transport: 220,000", "Lunch: 150,000"],
-    totalPerTerm: "TZS 2,220,000",
-    searchTerms: "primary standard 1 std 1",
-  },
-  {
-    category: "Primary",
-    grade: "Standard 2",
-    tuitionFee: "TZS 1,730,000",
-    administrationFee: "TZS 200,000",
-    optionalCosts: ["Transport: 220,000", "Lunch: 150,000"],
-    totalPerTerm: "TZS 2,300,000",
-    searchTerms: "primary standard 2 std 2",
-  },
-  {
-    category: "Primary",
-    grade: "Standard 3",
-    tuitionFee: "TZS 1,820,000",
-    administrationFee: "TZS 210,000",
-    optionalCosts: ["Transport: 230,000", "Lunch: 160,000"],
-    totalPerTerm: "TZS 2,420,000",
-    searchTerms: "primary standard 3 std 3",
-  },
-  {
-    category: "Primary",
-    grade: "Standard 4",
-    tuitionFee: "TZS 1,900,000",
-    administrationFee: "TZS 210,000",
-    optionalCosts: ["Transport: 240,000", "Lunch: 170,000"],
-    totalPerTerm: "TZS 2,520,000",
-    searchTerms: "primary standard 4 std 4",
-  },
-  {
-    category: "Secondary",
-    grade: "Form 1",
-    tuitionFee: "TZS 2,100,000",
-    administrationFee: "TZS 230,000",
-    optionalCosts: ["Transport: 260,000", "Lunch: 180,000"],
-    totalPerTerm: "TZS 2,770,000",
-    searchTerms: "secondary form 1",
-  },
-  {
-    category: "Secondary",
-    grade: "Form 2",
-    tuitionFee: "TZS 2,230,000",
-    administrationFee: "TZS 230,000",
-    optionalCosts: ["Transport: 260,000", "Lunch: 190,000"],
-    totalPerTerm: "TZS 2,910,000",
-    searchTerms: "secondary form 2",
-  },
-  {
-    category: "Secondary",
-    grade: "Form 3",
-    tuitionFee: "TZS 2,380,000",
-    administrationFee: "TZS 250,000",
-    optionalCosts: ["Transport: 280,000", "Lunch: 200,000"],
-    totalPerTerm: "TZS 3,110,000",
-    searchTerms: "secondary form 3",
-  },
-  {
-    category: "Secondary",
-    grade: "Form 4",
-    tuitionFee: "TZS 2,480,000",
-    administrationFee: "TZS 250,000",
-    optionalCosts: ["Transport: 280,000", "Lunch: 210,000"],
-    totalPerTerm: "TZS 3,220,000",
-    searchTerms: "secondary form 4",
-  },
-];
+const currencyFormatter = new Intl.NumberFormat("en-TZ", {
+  style: "currency",
+  currency: "TZS",
+  maximumFractionDigits: 0,
+});
+
+const formatCurrency = (amount: number): string => {
+  return currencyFormatter.format(Math.round(amount));
+};
+
+const buildRows = (items: FeeItem[]): FeeRow[] => {
+  return items.map((item) => {
+    const optionalCosts = item.optionalCosts.map((cost) => `${cost.label}: ${formatCurrency(cost.amount)}`);
+    const searchTerms = [item.category, item.grade, ...item.optionalCosts.map((cost) => cost.label)].join(" ").toLowerCase();
+
+    return {
+      id: item.id,
+      category: item.category,
+      grade: item.grade,
+      tuitionFee: formatCurrency(item.tuitionFee),
+      administrationFee: formatCurrency(item.administrationFee),
+      optionalCosts,
+      totalPerTerm: formatCurrency(item.totalPerTerm),
+      searchTerms,
+    };
+  });
+};
 
 export const FeesSection: FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [termsExpanded, setTermsExpanded] = useState<boolean>(false);
 
+  const { data, isLoading } = useFees();
+
+  const feeItems = data?.items ?? [];
+  const feeCategories = data?.categories ?? [];
+
+  const normalizedRows = useMemo(() => buildRows(feeItems), [feeItems]);
+
   const filteredRows = useMemo(() => {
     const normalized = searchTerm.trim().toLowerCase();
     if (!normalized) {
-      return FEE_ROWS;
+      return normalizedRows;
     }
 
-    return FEE_ROWS.filter((row) =>
-      row.searchTerms.toLowerCase().includes(normalized) ||
-      row.grade.toLowerCase().includes(normalized) ||
-      row.category.toLowerCase().includes(normalized)
-    );
-  }, [searchTerm]);
+    return normalizedRows.filter((row) => row.searchTerms.includes(normalized));
+  }, [normalizedRows, searchTerm]);
+
+  const categoryOrder = useMemo(() => {
+    if (feeCategories.length > 0) {
+      return feeCategories;
+    }
+
+    return Array.from(new Set(normalizedRows.map((row) => row.category)));
+  }, [feeCategories, normalizedRows]);
 
   const groupedRows = useMemo(() => {
-    return FEE_CATEGORIES.map((category) => ({
-      category,
-      rows: filteredRows.filter((row) => row.category === category),
-    })).filter((group) => group.rows.length > 0);
-  }, [filteredRows]);
+    return categoryOrder
+      .map((category) => ({
+        category,
+        rows: filteredRows.filter((row) => row.category === category),
+      }))
+      .filter((group) => group.rows.length > 0);
+  }, [categoryOrder, filteredRows]);
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -225,52 +164,63 @@ export const FeesSection: FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 text-sm">
-                {groupedRows.map((group) => (
-                  <Fragment key={`group-${group.category}`}>
-                    <tr className="bg-brand-light/60 text-xs font-semibold uppercase tracking-wide text-brand-brown">
-                      <td colSpan={5} className="px-6 py-3">
-                        {group.category}
-                      </td>
-                    </tr>
-                    {group.rows.map((row) => (
-                      <tr
-                        key={`${row.category}-${row.grade}`}
-                        className="bg-white transition hover:bg-brand-light"
-                      >
-                        <th
-                          scope="row"
-                          className="px-6 py-4 font-semibold text-brand-dark md:whitespace-normal"
-                        >
-                          {row.grade}
-                        </th>
-                        <td className="whitespace-nowrap px-6 py-4 text-right text-brand-dark">
-                          {row.tuitionFee}
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4 text-right text-brand-dark">
-                          {row.administrationFee}
-                        </td>
-                        <td className="px-6 py-4 text-right text-gray-600">
-                          <div className="space-y-1 whitespace-nowrap">
-                            {row.optionalCosts.map((cost) => (
-                              <div key={`${row.grade}-${cost}`}>{cost}</div>
-                            ))}
-                          </div>
-                        </td>
-                        <td className="whitespace-nowrap px-6 py-4 text-right font-semibold text-brand-dark">
-                          {row.totalPerTerm}
+                {isLoading
+                  ? Array.from({ length: 6 }).map((_, index) => (
+                      <tr key={`fees-skeleton-${index}`} className="bg-white">
+                        <td colSpan={5} className="px-6 py-4">
+                          <Skeleton className="h-4 w-full rounded" />
                         </td>
                       </tr>
-                    ))}
-                  </Fragment>
-                ))}
+                    ))
+                  : groupedRows.length > 0
+                  ? groupedRows.map((group) => (
+                      <Fragment key={`group-${group.category}`}>
+                        <tr className="bg-brand-light/60 text-xs font-semibold uppercase tracking-wide text-brand-brown">
+                          <td colSpan={5} className="px-6 py-3">
+                            {group.category}
+                          </td>
+                        </tr>
+                        {group.rows.map((row) => (
+                          <tr
+                            key={row.id}
+                            className="bg-white transition hover:bg-brand-light"
+                          >
+                            <th
+                              scope="row"
+                              className="px-6 py-4 font-semibold text-brand-dark md:whitespace-normal"
+                            >
+                              {row.grade}
+                            </th>
+                            <td className="whitespace-nowrap px-6 py-4 text-right text-brand-dark">
+                              {row.tuitionFee}
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4 text-right text-brand-dark">
+                              {row.administrationFee}
+                            </td>
+                            <td className="px-6 py-4 text-right text-gray-600">
+                              <div className="space-y-1 whitespace-nowrap">
+                                {row.optionalCosts.map((cost) => (
+                                  <div key={`${row.id}-${cost}`}>{cost}</div>
+                                ))}
+                              </div>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4 text-right font-semibold text-brand-dark">
+                              {row.totalPerTerm}
+                            </td>
+                          </tr>
+                        ))}
+                      </Fragment>
+                    ))
+                  : (
+                      <tr>
+                        <td colSpan={5} className="px-6 py-4 text-center text-sm font-medium text-gray-500">
+                          No results found. Please adjust your search terms.
+                        </td>
+                      </tr>
+                    )}
               </tbody>
             </table>
           </div>
-          {groupedRows.length === 0 && (
-            <p className="px-6 py-4 text-sm font-medium text-red-500">
-              No results found. Please adjust your search terms.
-            </p>
-          )}
         </section>
 
         <aside className="rounded-lg border border-brand-green/30 bg-white p-6 shadow-md md:p-8">

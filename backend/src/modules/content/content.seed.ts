@@ -1,4 +1,10 @@
-import type { CalendarData, SchoolEvent } from "../../shared/types/content.js";
+import type {
+  FeeItem,
+  GalleryItem,
+  NewsArticle,
+  PerformanceData,
+  SchoolEvent,
+} from "../../shared/types/content.js";
 
 export const mockEvents: SchoolEvent[] = [
   {
@@ -94,7 +100,7 @@ export const mockEvents: SchoolEvent[] = [
   },
 ];
 
-export const mockNews = [
+export const mockNews: NewsArticle[] = [
   {
     id: "1",
     title: "Amani School Achieves 95% Pass Rate in National Exams",
@@ -130,7 +136,7 @@ export const mockNews = [
   },
 ];
 
-export const mockPerformance = {
+export const mockPerformance: PerformanceData = {
   summary: {
     passRate: 95,
     averageScore: 82,
@@ -158,12 +164,249 @@ export const mockPerformance = {
   ],
 };
 
-export const generateCalendarData = (): CalendarData => {
-  return {
-    year: 2024,
-    events: mockEvents.map((event) => ({
-      ...event,
-      date: new Date(event.date).toISOString(),
-    })),
-  };
-};
+export const mockGallery: GalleryItem[] = [
+  {
+    id: "gallery-sports-relay",
+    title: "Sports Day Triumph",
+    caption: "Athletics team celebrating a relay victory under the evening lights.",
+    alt: "Students celebrating on the athletics track holding school flags.",
+    categories: ["sports"],
+    thumbnailUrl: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80",
+    fullUrl: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    id: "gallery-graduation-joy",
+    title: "Graduation Joy",
+    caption: "Graduates tossing caps outside the auditorium after the closing address.",
+    alt: "Graduating students tossing caps in front of the school auditorium.",
+    categories: ["graduation"],
+    thumbnailUrl: "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=800&q=80",
+    fullUrl: "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    id: "gallery-science-action",
+    title: "Science in Action",
+    caption: "Upper school chemistry session focusing on safe experimentation and discovery.",
+    alt: "Students observing a chemistry experiment with protective goggles in the science lab.",
+    categories: ["science-lab"],
+    thumbnailUrl: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80",
+    fullUrl: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    id: "gallery-campus-walkway",
+    title: "Campus Walkway",
+    caption: "Students heading to class across the landscaped quad on a sunny morning.",
+    alt: "Learners walking across the campus quad towards modern classrooms.",
+    categories: ["campus-life"],
+    thumbnailUrl: "https://images.unsplash.com/photo-1464802686167-b939a6910659?auto=format&fit=crop&w=800&q=80",
+    fullUrl: "https://images.unsplash.com/photo-1464802686167-b939a6910659?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    id: "gallery-basketball-training",
+    title: "Basketball Training",
+    caption: "Junior basketball practice emphasising teamwork and precision.",
+    alt: "Basketball team practicing layups in the indoor court.",
+    categories: ["sports"],
+    thumbnailUrl: "https://images.unsplash.com/photo-1487956382158-bb926046304a?auto=format&fit=crop&w=800&q=80",
+    fullUrl: "https://images.unsplash.com/photo-1487956382158-bb926046304a?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    id: "gallery-robotics-lab",
+    title: "Robotics Lab",
+    caption: "Robotics club testing autonomous builds before regional competition.",
+    alt: "Students collaborating on a robotics project in the innovation lab.",
+    categories: ["science-lab", "innovation"],
+    thumbnailUrl: "https://images.unsplash.com/photo-1581091012184-7b1c1ab0f18d?auto=format&fit=crop&w=800&q=80",
+    fullUrl: "https://images.unsplash.com/photo-1581091012184-7b1c1ab0f18d?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    id: "gallery-valedictory-address",
+    title: "Valedictory Address",
+    caption: "Head of school addressing graduates and families during the valedictory ceremony.",
+    alt: "Principal speaking at the podium during graduation ceremony.",
+    categories: ["graduation", "leadership"],
+    thumbnailUrl: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80",
+    fullUrl: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    id: "gallery-collaborative-commons",
+    title: "Collaborative Commons",
+    caption: "Library commons where learners collaborate on interdisciplinary projects.",
+    alt: "Students studying together in the library commons with laptops and notebooks.",
+    categories: ["campus-life", "community"],
+    thumbnailUrl: "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=800&q=80",
+    fullUrl: "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    id: "gallery-leadership-camp",
+    title: "Leadership Camp",
+    caption: "Student leaders plan community outreach initiatives during camp.",
+    alt: "Students gathered around a table planning a project with notebooks and tablets.",
+    categories: ["leadership", "community"],
+    thumbnailUrl: "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=800&q=60",
+    fullUrl: "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1600&q=60",
+  },
+  {
+    id: "gallery-community-service",
+    title: "Community Service Day",
+    caption: "Pupils participate in coastal clean-up with local partners.",
+    alt: "Students cleaning a beach shoreline with gloves and trash bags.",
+    categories: ["community"],
+    thumbnailUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
+    fullUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    id: "gallery-performing-arts",
+    title: "Performing Arts Showcase",
+    caption: "Drama club rehearses for the annual cultural evening.",
+    alt: "Students performing on stage with dramatic lighting.",
+    categories: ["campus-life", "community"],
+    thumbnailUrl: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80",
+    fullUrl: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    id: "gallery-innovation-fair",
+    title: "Innovation Fair",
+    caption: "Learners demonstrate prototypes during entrepreneurship week.",
+    alt: "Student presenting a project to judges at a science fair.",
+    categories: ["innovation", "science-lab"],
+    thumbnailUrl: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+    fullUrl: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=80",
+  },
+];
+
+export const mockFees: FeeItem[] = [
+  {
+    id: "nursery-baby-class",
+    category: "Nursery",
+    grade: "Baby Class",
+    tuitionFee: 1_200_000,
+    administrationFee: 150_000,
+    optionalCosts: [
+      { label: "Transport", amount: 180_000 },
+      { label: "Lunch", amount: 120_000 },
+    ],
+    totalPerTerm: 1_650_000,
+  },
+  {
+    id: "nursery-middle-class",
+    category: "Nursery",
+    grade: "Middle Class",
+    tuitionFee: 1_350_000,
+    administrationFee: 150_000,
+    optionalCosts: [
+      { label: "Transport", amount: 190_000 },
+      { label: "Lunch", amount: 120_000 },
+    ],
+    totalPerTerm: 1_810_000,
+  },
+  {
+    id: "nursery-pre-unit",
+    category: "Nursery",
+    grade: "Pre-Unit",
+    tuitionFee: 1_480_000,
+    administrationFee: 170_000,
+    optionalCosts: [
+      { label: "Transport", amount: 200_000 },
+      { label: "Lunch", amount: 130_000 },
+    ],
+    totalPerTerm: 1_980_000,
+  },
+  {
+    id: "primary-standard-1",
+    category: "Primary",
+    grade: "Standard 1",
+    tuitionFee: 1_650_000,
+    administrationFee: 200_000,
+    optionalCosts: [
+      { label: "Transport", amount: 220_000 },
+      { label: "Lunch", amount: 150_000 },
+    ],
+    totalPerTerm: 2_220_000,
+  },
+  {
+    id: "primary-standard-2",
+    category: "Primary",
+    grade: "Standard 2",
+    tuitionFee: 1_730_000,
+    administrationFee: 200_000,
+    optionalCosts: [
+      { label: "Transport", amount: 220_000 },
+      { label: "Lunch", amount: 150_000 },
+    ],
+    totalPerTerm: 2_300_000,
+  },
+  {
+    id: "primary-standard-3",
+    category: "Primary",
+    grade: "Standard 3",
+    tuitionFee: 1_820_000,
+    administrationFee: 210_000,
+    optionalCosts: [
+      { label: "Transport", amount: 230_000 },
+      { label: "Lunch", amount: 160_000 },
+    ],
+    totalPerTerm: 2_420_000,
+  },
+  {
+    id: "primary-standard-4",
+    category: "Primary",
+    grade: "Standard 4",
+    tuitionFee: 1_900_000,
+    administrationFee: 210_000,
+    optionalCosts: [
+      { label: "Transport", amount: 240_000 },
+      { label: "Lunch", amount: 170_000 },
+    ],
+    totalPerTerm: 2_520_000,
+  },
+  {
+    id: "secondary-form-1",
+    category: "Secondary",
+    grade: "Form 1",
+    tuitionFee: 2_100_000,
+    administrationFee: 230_000,
+    optionalCosts: [
+      { label: "Transport", amount: 260_000 },
+      { label: "Lunch", amount: 180_000 },
+    ],
+    totalPerTerm: 2_770_000,
+  },
+  {
+    id: "secondary-form-2",
+    category: "Secondary",
+    grade: "Form 2",
+    tuitionFee: 2_230_000,
+    administrationFee: 230_000,
+    optionalCosts: [
+      { label: "Transport", amount: 260_000 },
+      { label: "Lunch", amount: 190_000 },
+    ],
+    totalPerTerm: 2_910_000,
+  },
+  {
+    id: "secondary-form-3",
+    category: "Secondary",
+    grade: "Form 3",
+    tuitionFee: 2_380_000,
+    administrationFee: 250_000,
+    optionalCosts: [
+      { label: "Transport", amount: 280_000 },
+      { label: "Lunch", amount: 200_000 },
+    ],
+    totalPerTerm: 3_110_000,
+  },
+  {
+    id: "secondary-form-4",
+    category: "Secondary",
+    grade: "Form 4",
+    tuitionFee: 2_480_000,
+    administrationFee: 250_000,
+    optionalCosts: [
+      { label: "Transport", amount: 280_000 },
+      { label: "Lunch", amount: 210_000 },
+    ],
+    totalPerTerm: 3_220_000,
+  },
+];
+

@@ -5,6 +5,7 @@ import { MainLayout } from "@/layouts/MainLayout";
 import {
   HomePage,
   AboutPage,
+  GalleryPage,
   CalendarPage,
   NewsPage,
   PerformancePage,
@@ -12,6 +13,7 @@ import {
   ContactPage,
   NotFoundPage,
 } from "@/pages";
+import { ScrollToTop } from "@/components";
 import "./styles/globals.css";
 
 const queryClient = new QueryClient({
@@ -27,6 +29,7 @@ export const App: FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
+        <ScrollToTop />
         <Routes>
           <Route
             path="/"
@@ -41,6 +44,14 @@ export const App: FC = () => {
             element={
               <MainLayout>
                 <AboutPage />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/gallery"
+            element={
+              <MainLayout>
+                <GalleryPage />
               </MainLayout>
             }
           />

@@ -1,5 +1,12 @@
 import apiClient from "@/services/apiClient";
-import { Event, NewsResponse, PerformanceData, Calendar } from "@/types/api";
+import {
+  type Calendar,
+  type Event,
+  type FeeResponse,
+  type GalleryResponse,
+  type NewsResponse,
+  type PerformanceData,
+} from "@/types/api";
 
 export const contentAPI = {
   getEvents: async (month?: number, year?: number): Promise<Event[]> => {
@@ -59,6 +66,24 @@ export const contentAPI = {
         achievements: [],
         yearOverYear: [],
       };
+    }
+  },
+
+  getGallery: async (): Promise<GalleryResponse> => {
+    try {
+      const response = await apiClient.get("/gallery");
+      return (response.data as GalleryResponse) || { categories: [], items: [] };
+    } catch {
+      return { categories: [], items: [] };
+    }
+  },
+
+  getFees: async (): Promise<FeeResponse> => {
+    try {
+      const response = await apiClient.get("/fees");
+      return (response.data as FeeResponse) || { categories: [], items: [] };
+    } catch {
+      return { categories: [], items: [] };
     }
   },
 };

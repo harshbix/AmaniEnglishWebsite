@@ -1,5 +1,6 @@
 export { HomePage } from "@/pages/HomePage";
 export { AboutPage } from "@/pages/AboutPage";
+export { GalleryPage } from "@/pages/GalleryPage";
 export { CalendarPage } from "@/pages/CalendarPage";
 export { NewsPage } from "@/pages/NewsPage";
 export { PerformancePage } from "@/pages/PerformancePage";

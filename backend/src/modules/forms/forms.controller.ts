@@ -13,9 +13,9 @@ export const submitContact = async (req: Request, res: Response, next: NextFunct
       return;
     }
 
-    await formsService.submitContactForm(value);
+    const submission = await formsService.submitContactForm(value);
 
-    sendSuccess(res, { id: Date.now() }, "Contact form submitted successfully", 201);
+    sendSuccess(res, { id: submission.id, createdAt: submission.createdAt }, "Contact form submitted successfully", 201);
   } catch (error) {
     next(error);
   }
@@ -31,9 +31,9 @@ export const submitAdmission = async (req: Request, res: Response, next: NextFun
       return;
     }
 
-    await formsService.submitAdmissionInquiry(value);
+    const inquiry = await formsService.submitAdmissionInquiry(value);
 
-    sendSuccess(res, { id: Date.now() }, "Admission inquiry submitted successfully", 201);
+    sendSuccess(res, { id: inquiry.id, createdAt: inquiry.createdAt }, "Admission inquiry submitted successfully", 201);
   } catch (error) {
     next(error);
   }

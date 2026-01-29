@@ -1,133 +1,72 @@
 import { useEffect, useMemo, useRef, useState, type FC, type MouseEvent } from "react";
 import { Container } from "@/components/Container";
+import { Skeleton } from "@/components/Skeleton";
+import { useGallery } from "@/hooks";
+import type { GalleryCategory, GalleryItem as GalleryItemType } from "@/types/api";
 
-type GalleryCategory = "sports" | "graduation" | "science-lab" | "campus-life";
-
-type GalleryItem = {
-  id: string;
-  title: string;
-  caption: string;
-  alt: string;
-  category: GalleryCategory[];
-  thumbnailUrl: string;
-  fullUrl: string;
-};
-
-const GALLERY_FILTERS: Array<{ label: string; value: "all" | GalleryCategory }> = [
-  { label: "All", value: "all" },
-  { label: "Sports", value: "sports" },
-  { label: "Graduation", value: "graduation" },
-  { label: "Science Lab", value: "science-lab" },
-  { label: "Campus Life", value: "campus-life" },
-];
-
-const GALLERY_ITEMS: GalleryItem[] = [
-  {
-    id: "sports-1",
-    title: "Sports Day Triumph",
-    caption: "Athletics team celebrating a relay victory under the evening lights.",
-    alt: "Students celebrating on the athletics track holding school flags.",
-    category: ["sports"],
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80",
-    fullUrl:
-      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    id: "graduation-1",
-    title: "Graduation Joy",
-    caption: "Graduates tossing caps outside the auditorium after the closing address.",
-    alt: "Graduating students tossing caps in front of the school auditorium.",
-    category: ["graduation"],
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=800&q=80",
-    fullUrl:
-      "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    id: "science-1",
-    title: "Science in Action",
-    caption: "Upper school chemistry session focusing on safe experimentation and discovery.",
-    alt: "Students observing a chemistry experiment with protective goggles in the science lab.",
-    category: ["science-lab"],
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80",
-    fullUrl:
-      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    id: "campus-1",
-    title: "Campus Walkway",
-    caption: "Students heading to class across the landscaped quad on a sunny morning.",
-    alt: "Learners walking across the campus quad towards modern classrooms.",
-    category: ["campus-life"],
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1464802686167-b939a6910659?auto=format&fit=crop&w=800&q=80",
-    fullUrl:
-      "https://images.unsplash.com/photo-1464802686167-b939a6910659?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    id: "sports-2",
-    title: "Basketball Training",
-    caption: "Junior basketball practice emphasising teamwork and precision.",
-    alt: "Basketball team practicing layups in the indoor court.",
-    category: ["sports"],
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1487956382158-bb926046304a?auto=format&fit=crop&w=800&q=80",
-    fullUrl:
-      "https://images.unsplash.com/photo-1487956382158-bb926046304a?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    id: "science-2",
-    title: "Robotics Lab",
-    caption: "Robotics club testing autonomous builds before regional competition.",
-    alt: "Students collaborating on a robotics project in the innovation lab.",
-    category: ["science-lab"],
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1581091012184-7b1c1ab0f18d?auto=format&fit=crop&w=800&q=80",
-    fullUrl:
-      "https://images.unsplash.com/photo-1581091012184-7b1c1ab0f18d?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    id: "graduation-2",
-    title: "Valedictory Address",
-    caption: "Head of school addressing graduates and families during the valedictory ceremony.",
-    alt: "Principal speaking at the podium during graduation ceremony.",
-    category: ["graduation"],
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80",
-    fullUrl:
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    id: "campus-2",
-    title: "Collaborative Commons",
-    caption: "Library commons where learners collaborate on interdisciplinary projects.",
-    alt: "Students studying together in the library commons with laptops and notebooks.",
-    category: ["campus-life"],
-    thumbnailUrl:
-      "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=800&q=80",
-    fullUrl:
-      "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1600&q=80",
-  },
-];
+type GalleryFilterValue = "all" | GalleryCategory;
 
 export const GallerySection: FC = () => {
-  const [activeFilter, setActiveFilter] = useState<(typeof GALLERY_FILTERS)[number]["value"]>("all");
-  const [lightboxItem, setLightboxItem] = useState<GalleryItem | null>(null);
+  const [activeFilter, setActiveFilter] = useState<GalleryFilterValue>("all");
+  const [lightboxItem, setLightboxItem] = useState<GalleryItemType | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const previouslyFocusedRef = useRef<HTMLElement | null>(null);
   const previousOverflowRef = useRef<string | null>(null);
 
-  const filteredItems = useMemo(() => {
-    if (activeFilter === "all") {
-      return GALLERY_ITEMS;
+  const { data, isLoading } = useGallery();
+
+  const filters = useMemo(() => {
+    const apiFilters = data?.categories ?? [];
+    if (apiFilters.length > 0) {
+      return apiFilters;
     }
 
-    return GALLERY_ITEMS.filter((item) =>
-      item.category.some((category) => category === activeFilter)
+    const derivedCategories = Array.from(
+      new Set((data?.items ?? []).flatMap((item) => item.categories))
+    ) as GalleryCategory[];
+
+    if (derivedCategories.length > 0) {
+      return [
+        { label: "All", value: "all" as const },
+        ...derivedCategories.map((category) => ({
+          label: category
+            .split("-")
+            .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+            .join(" "),
+          value: category,
+        })),
+      ];
+    }
+
+    return [{ label: "All", value: "all" as const }];
+  }, [data]);
+
+  useEffect(() => {
+    const availableValues = filters.map((filter) => filter.value);
+    if (availableValues.includes(activeFilter)) {
+      return;
+    }
+
+    if (availableValues.includes("all")) {
+      setActiveFilter("all");
+    } else if (availableValues.length > 0) {
+      setActiveFilter(availableValues[0] as GalleryFilterValue);
+    } else if (activeFilter !== "all") {
+      setActiveFilter("all");
+    }
+  }, [filters, activeFilter]);
+
+  const galleryItems = data?.items ?? [];
+
+  const filteredItems = useMemo(() => {
+    if (activeFilter === "all") {
+      return galleryItems;
+    }
+
+    return galleryItems.filter((item) =>
+      item.categories.some((category) => category === activeFilter)
     );
-  }, [activeFilter]);
+  }, [galleryItems, activeFilter]);
 
   useEffect(() => {
     if (lightboxItem) {
@@ -165,13 +104,13 @@ export const GallerySection: FC = () => {
     return undefined;
   }, [lightboxItem]);
 
-  const handleFilterClick = (value: (typeof GALLERY_FILTERS)[number]["value"]) => {
+  const handleFilterClick = (value: GalleryFilterValue) => {
     setActiveFilter(value);
   };
 
   const handleTriggerClick = (
     event: MouseEvent<HTMLButtonElement>,
-    item: GalleryItem
+    item: GalleryItemType
   ) => {
     previouslyFocusedRef.current = event.currentTarget;
     setLightboxItem(item);
@@ -204,7 +143,7 @@ export const GallerySection: FC = () => {
         </header>
 
         <div className="flex flex-wrap items-center gap-3">
-          {GALLERY_FILTERS.map((filter) => {
+          {filters.map((filter) => {
             const isActive = activeFilter === filter.value;
             return (
               <button
@@ -224,30 +163,43 @@ export const GallerySection: FC = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
-          {filteredItems.map((item) => (
-            <article
-              key={item.id}
-              className="group relative overflow-hidden rounded-lg bg-white shadow-base transition hover:-translate-y-1"
-            >
-              <button
-                type="button"
-                onClick={(event) => handleTriggerClick(event, item)}
-                className="block w-full focus:outline-none"
-              >
-                <figure className="relative">
-                  <img
-                    src={item.thumbnailUrl}
-                    alt={item.alt}
-                    loading="lazy"
-                    className="h-60 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-4 py-3 text-sm font-semibold text-white">
-                    {item.title}
-                  </figcaption>
-                </figure>
-              </button>
-            </article>
-          ))}
+          {isLoading
+            ? Array.from({ length: 8 }).map((_, index) => (
+                <Skeleton
+                  key={`gallery-skeleton-${index}`}
+                  className="h-60 w-full rounded-lg"
+                />
+              ))
+            : filteredItems.length > 0
+            ? filteredItems.map((item) => (
+                <article
+                  key={item.id}
+                  className="group relative overflow-hidden rounded-lg bg-white shadow-base transition hover:-translate-y-1"
+                >
+                  <button
+                    type="button"
+                    onClick={(event) => handleTriggerClick(event, item)}
+                    className="block w-full focus:outline-none"
+                  >
+                    <figure className="relative">
+                      <img
+                        src={item.thumbnailUrl}
+                        alt={item.alt}
+                        loading="lazy"
+                        className="h-60 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-4 py-3 text-sm font-semibold text-white">
+                        {item.title}
+                      </figcaption>
+                    </figure>
+                  </button>
+                </article>
+              ))
+            : (
+                <p className="col-span-full text-center text-sm font-medium text-gray-500">
+                  No gallery items available at the moment.
+                </p>
+              )}
         </div>
       </Container>
 
