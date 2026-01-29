@@ -9,6 +9,7 @@ import {
   CalendarPage,
   NewsPage,
   PerformancePage,
+  FeesPage,
   AdmissionsPage,
   ContactPage,
   NotFoundPage,
@@ -76,6 +77,14 @@ export const App: FC = () => {
             element={
               <MainLayout>
                 <PerformancePage />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/fees"
+            element={
+              <MainLayout>
+                <FeesPage />
               </MainLayout>
             }
           />

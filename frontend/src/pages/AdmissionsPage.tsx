@@ -1,8 +1,8 @@
 import { useState, type FC } from "react";
-import { Container, Hero, Button, Input, Select, Textarea, Alert, FeesSection } from "@/components";
+import { Container, Hero, Button, Input, Select, Textarea, FeesSection, Toast } from "@/components";
 import { usePageMeta, useAdmissionForm } from "@/hooks";
 import { ADMISSION_CLASSES } from "@/utils/constants";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const AdmissionsPage: FC = () => {
   usePageMeta({
@@ -37,9 +37,14 @@ export const AdmissionsPage: FC = () => {
   });
 
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [toast, setToast] = useState<{
+    id: number;
+    type: "success" | "error";
+    title: string;
+    message: string;
+  } | null>(null);
 
-  const { submit, isPending, errors } = useAdmissionForm();
+  const { submit, isPending } = useAdmissionForm();
 
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
@@ -62,8 +67,9 @@ export const AdmissionsPage: FC = () => {
 
     if (!validateForm()) return;
 
-    const success = await submit(formData);
-    if (success) {
+    const result = await submit(formData);
+
+    if (result.success) {
       setFormData({
         childFirstName: "",
         childLastName: "",
@@ -76,8 +82,19 @@ export const AdmissionsPage: FC = () => {
         intendedClass: "",
         message: "",
       });
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 5000);
+      setToast({
+        id: Date.now(),
+        type: "success",
+        title: "Application Received!",
+        message: "Thank you for applying. We'll contact you with next steps shortly.",
+      });
+    } else {
+      setToast({
+        id: Date.now(),
+        type: "error",
+        title: "Submission Failed",
+        message: result.message || "We couldn't submit your application. Please try again.",
+      });
     }
   };
 
@@ -103,6 +120,17 @@ export const AdmissionsPage: FC = () => {
 
   return (
     <>
+      <AnimatePresence>
+        {toast && (
+          <Toast
+            key={toast.id}
+            type={toast.type}
+            title={toast.title}
+            message={toast.message}
+            onDismiss={() => setToast(null)}
+          />
+        )}
+      </AnimatePresence>
       <Hero
         title="Admissions"
         subtitle="Start your journey with Amani School. Apply today!"
@@ -162,25 +190,6 @@ export const AdmissionsPage: FC = () => {
                 <h2 className="text-2xl font-bold text-brand-dark mb-6">
                   Admission Application Form
                 </h2>
-
-                {showSuccess && (
-                  <Alert
-                    type="success"
-                    title="Application Received!"
-                    message="Thank you for applying. We'll review your application and contact you soon."
-                    onClose={() => setShowSuccess(false)}
-                  />
-                )}
-
-                {errors.submit && (
-                  <Alert
-                    type="error"
-                    title="Error"
-                    message={errors.submit}
-                    onClose={() => setFieldErrors({ ...fieldErrors, submit: "" })}
-                  />
-                )}
-
                 <form onSubmit={handleSubmit} className="space-y-8">
                   {/* Child Information */}
                   <div>

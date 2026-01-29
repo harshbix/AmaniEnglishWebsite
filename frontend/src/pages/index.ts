@@ -4,6 +4,7 @@ export { GalleryPage } from "@/pages/GalleryPage";
 export { CalendarPage } from "@/pages/CalendarPage";
 export { NewsPage } from "@/pages/NewsPage";
 export { PerformancePage } from "@/pages/PerformancePage";
+export { FeesPage } from "@/pages/FeesPage";
 export { AdmissionsPage } from "@/pages/AdmissionsPage";
 export { ContactPage } from "@/pages/ContactPage";
 export { NotFoundPage } from "@/pages/NotFoundPage";

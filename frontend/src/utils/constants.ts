@@ -47,6 +47,7 @@ export const QUICK_LINKS = [
   { label: "Calendar", href: "/calendar" },
   { label: "News", href: "/news" },
   { label: "Performance", href: "/performance" },
+  { label: "Fees", href: "/fees" },
   { label: "Admissions", href: "/admissions" },
   { label: "Contact", href: "/contact" },
 ];

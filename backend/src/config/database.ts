@@ -12,6 +12,10 @@ export const connectDatabase = async (): Promise<Db> => {
 
   const mongoClient = new MongoClient(config.databaseUrl, {
     serverSelectionTimeoutMS: 5_000,
+    tls: true,
+    tlsAllowInvalidCertificates: false,
+    retryWrites: true,
+    w: 'majority',
   });
 
   try {

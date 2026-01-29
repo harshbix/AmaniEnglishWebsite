@@ -1,8 +1,8 @@
 import { useState, type FC } from "react";
-import { Container, Hero, Button, Input, Textarea, Alert } from "@/components";
+import { Container, Hero, Button, Input, Textarea, Toast } from "@/components";
 import { usePageMeta, useContactForm } from "@/hooks";
 import { isValidEmail, isValidPhone } from "@/utils/helpers";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const ContactPage: FC = () => {
   usePageMeta({
@@ -21,9 +21,14 @@ export const ContactPage: FC = () => {
   });
 
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [toast, setToast] = useState<{
+    id: number;
+    type: "success" | "error";
+    title: string;
+    message: string;
+  } | null>(null);
 
-  const { submit, isPending, errors } = useContactForm();
+  const { submit, isPending } = useContactForm();
 
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
@@ -54,8 +59,9 @@ export const ContactPage: FC = () => {
 
     if (!validateForm()) return;
 
-    const success = await submit(formData);
-    if (success) {
+    const result = await submit(formData);
+
+    if (result.success) {
       setFormData({
         firstName: "",
         lastName: "",
@@ -64,8 +70,19 @@ export const ContactPage: FC = () => {
         subject: "",
         message: "",
       });
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 5000);
+      setToast({
+        id: Date.now(),
+        type: "success",
+        title: "Message Sent!",
+        message: "Thank you for contacting us. We'll get back to you soon.",
+      });
+    } else {
+      setToast({
+        id: Date.now(),
+        type: "error",
+        title: "Submission Failed",
+        message: result.message || "We couldn't send your message. Please try again.",
+      });
     }
   };
 
@@ -91,6 +108,17 @@ export const ContactPage: FC = () => {
 
   return (
     <>
+      <AnimatePresence>
+        {toast && (
+          <Toast
+            key={toast.id}
+            type={toast.type}
+            title={toast.title}
+            message={toast.message}
+            onDismiss={() => setToast(null)}
+          />
+        )}
+      </AnimatePresence>
       <Hero
         title="Contact Us"
         subtitle="We'd love to hear from you. Get in touch with our team."
@@ -159,24 +187,6 @@ export const ContactPage: FC = () => {
             {/* Contact Form */}
             <motion.div variants={itemVariants} className="lg:col-span-2">
               <div className="bg-white rounded-lg shadow-md p-8">
-                {showSuccess && (
-                  <Alert
-                    type="success"
-                    title="Message Sent!"
-                    message="Thank you for contacting us. We'll get back to you soon."
-                    onClose={() => setShowSuccess(false)}
-                  />
-                )}
-
-                {errors.submit && (
-                  <Alert
-                    type="error"
-                    title="Error"
-                    message={errors.submit}
-                    onClose={() => setFieldErrors({ ...fieldErrors, submit: "" })}
-                  />
-                )}
-
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Input

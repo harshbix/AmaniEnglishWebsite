@@ -2,6 +2,13 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { formAPI } from "@/services/formAPI";
 import { ContactFormData, AdmissionFormData } from "@/types/api";
+import type { SubmissionResponse } from "@/services/formAPI";
+
+type SubmitResult = {
+  success: boolean;
+  message?: string;
+  data?: SubmissionResponse;
+};
 
 export const useContactForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -10,16 +17,18 @@ export const useContactForm = () => {
     mutationFn: (data: ContactFormData) => formAPI.submitContact(data),
   });
 
-  const submit = async (data: ContactFormData) => {
+  const submit = async (data: ContactFormData): Promise<SubmitResult> => {
     setErrors({});
     try {
-      await mutation.mutateAsync(data);
-      return true;
+      const result = await mutation.mutateAsync(data);
+      return { success: true, data: result };
     } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Something went wrong. Please try again.";
       if (error instanceof Error) {
-        setErrors({ submit: error.message });
+        setErrors({ submit: message });
       }
-      return false;
+      return { success: false, message };
     }
   };
 
@@ -33,16 +42,18 @@ export const useAdmissionForm = () => {
     mutationFn: (data: AdmissionFormData) => formAPI.submitAdmission(data),
   });
 
-  const submit = async (data: AdmissionFormData) => {
+  const submit = async (data: AdmissionFormData): Promise<SubmitResult> => {
     setErrors({});
     try {
-      await mutation.mutateAsync(data);
-      return true;
+      const result = await mutation.mutateAsync(data);
+      return { success: true, data: result };
     } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Something went wrong. Please try again.";
       if (error instanceof Error) {
-        setErrors({ submit: error.message });
+        setErrors({ submit: message });
       }
-      return false;
+      return { success: false, message };
     }
   };
 
