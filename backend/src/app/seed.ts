@@ -46,6 +46,16 @@ export const seedDatabase = async (): Promise<void> => {
   if (galleryCount === 0) {
     await galleryCollection.insertMany(collectionWithId(mockGallery));
     logger.info("Seeded gallery collection with sample data");
+  } else {
+    const requiresRefresh = galleryCount !== mockGallery.length;
+    const externalGalleryCount = await galleryCollection.countDocuments({
+      thumbnailUrl: { $regex: "^https?://" },
+    });
+    if (requiresRefresh || externalGalleryCount > 0) {
+      await galleryCollection.deleteMany({});
+      await galleryCollection.insertMany(collectionWithId(mockGallery));
+      logger.info("Refreshed gallery collection with local images");
+    }
   }
 
   const feesCollection = db.collection<SeedableDocument<FeeItem>>("fees");

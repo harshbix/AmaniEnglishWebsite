@@ -39,6 +39,7 @@ export const PerformancePage: FC = () => {
       <Hero
         title="School Performance"
         subtitle="Excellence through measurable results and continuous improvement."
+        backgroundImage="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.02%20%2818%29.jpeg"
       />
 
       {/* Summary Metrics */}

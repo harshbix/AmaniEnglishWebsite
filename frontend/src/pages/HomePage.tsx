@@ -64,6 +64,7 @@ export const HomePage: FC = () => {
         subtitle="Nurturing brilliance, inspiring excellence. A world-class education in Tanga, Tanzania."
         ctaText="Apply Now"
         ctaLink="/admissions"
+        backgroundImage="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.02%20%2813%29.jpeg"
       />
 
       {/* School Mission Section */}
@@ -76,7 +77,15 @@ export const HomePage: FC = () => {
             viewport={{ once: true }}
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
-            <motion.div variants={itemVariants} className="text-center">
+            <motion.div variants={itemVariants} className="text-center rounded-2xl bg-white p-6 shadow-sm border border-gray-100">
+              <img
+                src="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.01%20%285%29.jpeg"
+                alt="Students celebrating academic achievement"
+                className="h-32 w-full rounded-xl object-cover mb-5"
+                loading="lazy"
+                decoding="async"
+                sizes="(min-width: 768px) 30vw, 90vw"
+              />
               <div className="w-16 h-16 bg-brand-green rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-white text-2xl">🎓</span>
               </div>
@@ -89,7 +98,15 @@ export const HomePage: FC = () => {
               </p>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="text-center">
+            <motion.div variants={itemVariants} className="text-center rounded-2xl bg-white p-6 shadow-sm border border-gray-100">
+              <img
+                src="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.02%20%281%29.jpeg"
+                alt="School community gathering"
+                className="h-32 w-full rounded-xl object-cover mb-5"
+                loading="lazy"
+                decoding="async"
+                sizes="(min-width: 768px) 30vw, 90vw"
+              />
               <div className="w-16 h-16 bg-brand-brown rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-white text-2xl">🤝</span>
               </div>
@@ -102,7 +119,15 @@ export const HomePage: FC = () => {
               </p>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="text-center">
+            <motion.div variants={itemVariants} className="text-center rounded-2xl bg-white p-6 shadow-sm border border-gray-100">
+              <img
+                src="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.03%20%281%29.jpeg"
+                alt="Students collaborating on growth activities"
+                className="h-32 w-full rounded-xl object-cover mb-5"
+                loading="lazy"
+                decoding="async"
+                sizes="(min-width: 768px) 30vw, 90vw"
+              />
               <div className="w-16 h-16 bg-brand-green rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-white text-2xl">🌟</span>
               </div>

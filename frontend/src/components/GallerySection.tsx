@@ -186,6 +186,8 @@ export const GallerySection: FC = () => {
                         src={item.thumbnailUrl}
                         alt={item.alt}
                         loading="lazy"
+                        decoding="async"
+                        sizes="(min-width: 1280px) 22vw, (min-width: 768px) 45vw, 90vw"
                         className="h-60 w-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                       <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-4 py-3 text-sm font-semibold text-white">

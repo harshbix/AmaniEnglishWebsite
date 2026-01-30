@@ -35,6 +35,7 @@ export const AboutPage: FC = () => {
       <Hero
         title="About Amani School"
         subtitle="Discover our mission to nurture excellence in every student."
+        backgroundImage="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.02%20%2814%29.jpeg"
       />
 
       {/* Mission, Vision, Values */}

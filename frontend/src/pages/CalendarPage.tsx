@@ -131,6 +131,7 @@ export const CalendarPage: FC = () => {
       <Hero
         title="Academic Calendar"
         subtitle="Stay updated with important school events and dates."
+        backgroundImage="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.02%20%2816%29.jpeg"
       />
 
       <section className="py-16 md:py-24 bg-gray-50">

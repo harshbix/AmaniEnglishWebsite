@@ -27,11 +27,17 @@ export const Header: FC = () => {
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center gap-2 font-bold text-xl text-brand-dark hover:text-brand-green transition-colors"
+            className="flex items-center gap-3 font-bold text-xl text-brand-dark hover:text-brand-green transition-colors"
           >
-            <div className="w-10 h-10 bg-brand-green rounded-full flex items-center justify-center">
-              <span className="text-white font-bold">A</span>
-            </div>
+            <img
+              src="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.04.jpeg"
+              alt="Amani School logo"
+              width={48}
+              height={48}
+              className="h-10 w-10 md:h-12 md:w-12 object-contain"
+              loading="eager"
+              decoding="async"
+            />
             <span className="hidden sm:inline">Amani School</span>
           </Link>
 

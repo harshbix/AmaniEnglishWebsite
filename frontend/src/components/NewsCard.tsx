@@ -27,6 +27,8 @@ export const NewsCard: FC<NewsCardProps> = ({ news, onClick }) => {
               alt={news.title}
               className="w-full h-full object-cover"
               loading="lazy"
+              decoding="async"
+              sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 90vw"
             />
           </div>
         )}

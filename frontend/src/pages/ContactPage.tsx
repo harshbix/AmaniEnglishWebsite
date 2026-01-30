@@ -122,6 +122,7 @@ export const ContactPage: FC = () => {
       <Hero
         title="Contact Us"
         subtitle="We'd love to hear from you. Get in touch with our team."
+        backgroundImage="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.03%20%283%29.jpeg"
       />
 
       <section className="py-16 md:py-24">
