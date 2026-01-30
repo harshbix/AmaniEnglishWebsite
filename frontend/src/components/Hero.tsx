@@ -6,6 +6,7 @@ interface HeroProps {
   title: string;
   subtitle?: string;
   backgroundImage?: string;
+  backgroundAlt?: string;
   ctaText?: string;
   ctaLink?: string;
 }
@@ -14,22 +15,41 @@ export const Hero: FC<HeroProps> = ({
   title,
   subtitle,
   backgroundImage,
+  backgroundAlt,
   ctaText,
   ctaLink,
 }) => {
   return (
     <section
       className="relative py-20 md:py-32 bg-brand-dark text-white overflow-hidden"
-      style={
-        backgroundImage
-          ? {
-              backgroundImage: `linear-gradient(135deg, rgba(26, 26, 26, 0.85), rgba(127, 176, 105, 0.85)), url(${backgroundImage})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }
-          : undefined
-      }
     >
+      {backgroundImage && (
+        <div className="absolute inset-0">
+          <picture className="absolute inset-0 h-full w-full">
+            <source
+              type="image/avif"
+              srcSet={`${backgroundImage}-480.avif 480w, ${backgroundImage}-768.avif 768w, ${backgroundImage}-1200.avif 1200w, ${backgroundImage}-1600.avif 1600w`}
+              sizes="100vw"
+            />
+            <source
+              type="image/webp"
+              srcSet={`${backgroundImage}-480.webp 480w, ${backgroundImage}-768.webp 768w, ${backgroundImage}-1200.webp 1200w, ${backgroundImage}-1600.webp 1600w`}
+              sizes="100vw"
+            />
+            <img
+              src={`${backgroundImage}-1600.jpg`}
+              srcSet={`${backgroundImage}-480.jpg 480w, ${backgroundImage}-768.jpg 768w, ${backgroundImage}-1200.jpg 1200w, ${backgroundImage}-1600.jpg 1600w`}
+              sizes="100vw"
+              alt={backgroundAlt || ""}
+              className="h-full w-full object-cover"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+            />
+          </picture>
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-dark/85 via-brand-dark/65 to-brand-green/60" />
+        </div>
+      )}
       <Container className="relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

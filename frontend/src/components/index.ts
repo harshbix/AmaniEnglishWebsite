@@ -18,5 +18,6 @@ export { FeesSection } from "@/components/FeesSection";
 export { GallerySection } from "@/components/GallerySection";
 export { ScrollToTop } from "@/components/ScrollToTop";
 export { Toast } from "@/components/Toast";
+export { ResponsiveImage } from "@/components/ResponsiveImage";
 
 export default {};

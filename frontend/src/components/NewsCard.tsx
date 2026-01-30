@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { motion } from "framer-motion";
 import { Card } from "@/components/Card";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
 import { NewsArticle } from "@/types/api";
 import { formatDate, truncateText } from "@/utils/helpers";
 
@@ -21,14 +22,13 @@ export const NewsCard: FC<NewsCardProps> = ({ news, onClick }) => {
         className="h-full cursor-pointer overflow-hidden"
       >
         {news.imageUrl && (
-          <div className="w-full h-48 bg-gray-200 rounded-lg mb-4 overflow-hidden">
-            <img
+          <div className="w-full overflow-hidden rounded-lg mb-4 bg-gray-200" style={{ aspectRatio: "3 / 2" }}>
+            <ResponsiveImage
               src={news.imageUrl}
               alt={news.title}
-              className="w-full h-full object-cover"
-              loading="lazy"
-              decoding="async"
+              widths={[480, 768, 1200]}
               sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 90vw"
+              imgClassName="h-full w-full object-cover"
             />
           </div>
         )}

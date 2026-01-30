@@ -39,6 +39,15 @@ export const seedDatabase = async (): Promise<void> => {
   if (newsCount === 0) {
     await newsCollection.insertMany(collectionWithId(mockNews));
     logger.info("Seeded news collection with sample data");
+  } else {
+    const outdatedNewsCount = await newsCollection.countDocuments({
+      imageUrl: { $not: /^\/images\/optimized\// },
+    });
+    if (outdatedNewsCount > 0) {
+      await newsCollection.deleteMany({});
+      await newsCollection.insertMany(collectionWithId(mockNews));
+      logger.info("Refreshed news collection with optimized images");
+    }
   }
 
   const galleryCollection = db.collection<SeedableDocument<GalleryItem>>("gallery");

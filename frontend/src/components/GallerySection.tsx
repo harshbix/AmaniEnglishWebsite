@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type FC, type MouseEvent } from "react";
 import { Container } from "@/components/Container";
 import { Skeleton } from "@/components/Skeleton";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
 import { useGallery } from "@/hooks";
 import type { GalleryCategory, GalleryItem as GalleryItemType } from "@/types/api";
 
@@ -182,14 +183,20 @@ export const GallerySection: FC = () => {
                     className="block w-full focus:outline-none"
                   >
                     <figure className="relative">
-                      <img
-                        src={item.thumbnailUrl}
-                        alt={item.alt}
-                        loading="lazy"
-                        decoding="async"
-                        sizes="(min-width: 1280px) 22vw, (min-width: 768px) 45vw, 90vw"
-                        className="h-60 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
+                      <div
+                        className="w-full overflow-hidden"
+                        style={{ aspectRatio: item.orientation === "portrait" ? "3 / 4" : "4 / 3" }}
+                      >
+                        <ResponsiveImage
+                          src={item.thumbnailUrl}
+                          alt={item.alt}
+                          widths={[480, 768, 1200]}
+                          sizes="(min-width: 1280px) 22vw, (min-width: 768px) 45vw, 90vw"
+                          imgClassName={`h-full w-full transition-transform duration-300 group-hover:scale-105 ${
+                            item.orientation === "portrait" ? "object-contain bg-brand-light" : "object-cover"
+                          }`}
+                        />
+                      </div>
                       <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent px-4 py-3 text-sm font-semibold text-white">
                         {item.title}
                       </figcaption>
@@ -235,10 +242,13 @@ export const GallerySection: FC = () => {
           </button>
           {lightboxItem ? (
             <>
-              <img
+              <ResponsiveImage
                 src={lightboxItem.fullUrl}
                 alt={lightboxItem.alt}
-                className="h-auto w-full bg-brand-light object-contain"
+                widths={[768, 1200, 1600]}
+                sizes="(min-width: 1024px) 80vw, 95vw"
+                imgClassName="h-auto w-full bg-brand-light object-contain"
+                loading="eager"
               />
               <p className="px-6 py-4 text-sm font-medium text-brand-dark">
                 {lightboxItem.caption}

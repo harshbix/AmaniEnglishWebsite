@@ -71,6 +71,7 @@ export interface GalleryItem {
   categories: GalleryCategory[];
   thumbnailUrl: string;
   fullUrl: string;
+  orientation?: "portrait" | "landscape";
 }
 
 export interface GalleryResponse {

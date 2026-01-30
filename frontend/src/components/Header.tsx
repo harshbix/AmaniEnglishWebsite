@@ -1,6 +1,7 @@
 import { useState, useEffect, type FC } from "react";
 import { Link } from "react-router-dom";
 import { Container } from "@/components/Container";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
 import { QUICK_LINKS } from "@/utils/constants";
 
 export const Header: FC = () => {
@@ -29,14 +30,18 @@ export const Header: FC = () => {
             to="/"
             className="flex items-center gap-3 font-bold text-xl text-brand-dark hover:text-brand-green transition-colors"
           >
-            <img
-              src="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.04.jpeg"
-              alt="Amani School logo"
-              width={48}
-              height={48}
-              className="h-10 w-10 md:h-12 md:w-12 object-contain"
+            <ResponsiveImage
+              src="/images/optimized/logo-amani-school"
+              alt="Amani English Medium Pre and Primary School logo"
+              widths={[64, 96, 128, 192]}
+              sizes="48px"
+              width={96}
+              height={96}
               loading="eager"
               decoding="async"
+              fetchPriority="high"
+              className="h-10 w-10 md:h-12 md:w-12"
+              imgClassName="h-full w-full object-contain"
             />
             <span className="hidden sm:inline">Amani School</span>
           </Link>

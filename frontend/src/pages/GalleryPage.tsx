@@ -15,7 +15,8 @@ export const GalleryPage: FC = () => {
       <Hero
         title="Experience Life At Amani"
         subtitle="Discover the vibrant energy of our classrooms, labs, playgrounds, and community celebrations."
-        backgroundImage="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.02%20%2815%29.jpeg"
+        backgroundImage="/images/optimized/hero-gallery-campus"
+        backgroundAlt="Students learning together on campus"
         ctaText="Plan A Visit"
         ctaLink="/contact"
       />

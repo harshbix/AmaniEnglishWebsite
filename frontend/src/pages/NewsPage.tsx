@@ -25,7 +25,8 @@ export const NewsPage: FC = () => {
       <Hero
         title="News & Announcements"
         subtitle="Stay informed with the latest updates from our school community."
-        backgroundImage="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.02%20%2817%29.jpeg"
+        backgroundImage="/images/optimized/hero-news-updates"
+        backgroundAlt="Students and staff during a school announcement"
       />
 
       <section className="py-16 md:py-24">

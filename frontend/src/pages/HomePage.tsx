@@ -8,6 +8,7 @@ import {
   EventCard,
   NewsCard,
   MetricCard,
+  ResponsiveImage,
 } from "@/components";
 import { usePageMeta, useEvents, useNews, usePerformance } from "@/hooks";
 import { SCHOOL_INFO } from "@/utils/constants";
@@ -64,7 +65,8 @@ export const HomePage: FC = () => {
         subtitle="Nurturing brilliance, inspiring excellence. A world-class education in Tanga, Tanzania."
         ctaText="Apply Now"
         ctaLink="/admissions"
-        backgroundImage="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.02%20%2813%29.jpeg"
+        backgroundImage="/images/optimized/campus-life-moments"
+        backgroundAlt="Students moving between classes on campus"
       />
 
       {/* School Mission Section */}
@@ -78,13 +80,13 @@ export const HomePage: FC = () => {
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
             <motion.div variants={itemVariants} className="text-center rounded-2xl bg-white p-6 shadow-sm border border-gray-100">
-              <img
-                src="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.01%20%285%29.jpeg"
-                alt="Students celebrating academic achievement"
-                className="h-32 w-full rounded-xl object-cover mb-5"
-                loading="lazy"
-                decoding="async"
-                sizes="(min-width: 768px) 30vw, 90vw"
+              <ResponsiveImage
+                src="/images/optimized/classroom-focus"
+                alt="Focused learners in a classroom"
+                widths={[480, 768, 1200]}
+                sizes="(min-width: 1024px) 24vw, (min-width: 768px) 40vw, 90vw"
+                className="mb-5 block"
+                imgClassName="h-32 w-full rounded-xl object-cover"
               />
               <div className="w-16 h-16 bg-brand-green rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-white text-2xl">🎓</span>
@@ -99,13 +101,13 @@ export const HomePage: FC = () => {
             </motion.div>
 
             <motion.div variants={itemVariants} className="text-center rounded-2xl bg-white p-6 shadow-sm border border-gray-100">
-              <img
-                src="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.02%20%281%29.jpeg"
-                alt="School community gathering"
-                className="h-32 w-full rounded-xl object-cover mb-5"
-                loading="lazy"
-                decoding="async"
-                sizes="(min-width: 768px) 30vw, 90vw"
+              <ResponsiveImage
+                src="/images/optimized/community-celebration"
+                alt="Families and staff celebrating together"
+                widths={[480, 768, 1200]}
+                sizes="(min-width: 1024px) 24vw, (min-width: 768px) 40vw, 90vw"
+                className="mb-5 block"
+                imgClassName="h-32 w-full rounded-xl object-cover"
               />
               <div className="w-16 h-16 bg-brand-brown rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-white text-2xl">🤝</span>
@@ -120,13 +122,13 @@ export const HomePage: FC = () => {
             </motion.div>
 
             <motion.div variants={itemVariants} className="text-center rounded-2xl bg-white p-6 shadow-sm border border-gray-100">
-              <img
-                src="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.03%20%281%29.jpeg"
-                alt="Students collaborating on growth activities"
-                className="h-32 w-full rounded-xl object-cover mb-5"
-                loading="lazy"
-                decoding="async"
-                sizes="(min-width: 768px) 30vw, 90vw"
+              <ResponsiveImage
+                src="/images/optimized/student-collaboration"
+                alt="Students collaborating on assignments"
+                widths={[480, 768, 1200]}
+                sizes="(min-width: 1024px) 24vw, (min-width: 768px) 40vw, 90vw"
+                className="mb-5 block"
+                imgClassName="h-32 w-full rounded-xl object-cover"
               />
               <div className="w-16 h-16 bg-brand-green rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-white text-2xl">🌟</span>

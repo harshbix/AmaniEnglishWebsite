@@ -134,7 +134,8 @@ export const AdmissionsPage: FC = () => {
       <Hero
         title="Admissions"
         subtitle="Start your journey with Amani School. Apply today!"
-        backgroundImage="/images/WhatsApp%20Image%202026-01-29%20at%2022.30.03%20%282%29.jpeg"
+        backgroundImage="/images/optimized/hero-admissions-journey"
+        backgroundAlt="Students in a welcoming admissions session"
       />
 
       <section className="py-16 md:py-24">
